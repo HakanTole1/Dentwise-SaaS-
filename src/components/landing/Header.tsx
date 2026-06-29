@@ -16,13 +16,13 @@ function Header() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8"> {/*Navigation Links */} 
-          <a href="#" className="text-muted-foreground hover:text-foreground">
+          <a href="#how-it-works" className="text-muted-foreground hover:text-foreground">
             How It Works
           </a> 
-          <a href="#" className="text-muted-foreground hover:text-foreground">
+          <a href="#pricing" className="text-muted-foreground hover:text-foreground">
             Pricing
           </a> 
-          <a href="#" className="text-muted-foreground hover:text-foreground">
+          <a href="#cta" className="text-muted-foreground hover:text-foreground">
             About
           </a> 
         </div>
