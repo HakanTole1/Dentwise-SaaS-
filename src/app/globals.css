@@ -206,6 +206,7 @@
   }
 }
 
+/* Sound wave animation for AI Speech*/
 @keyframes sound-wave {
   0% {
     height: 10%;
@@ -217,3 +218,9 @@
     height: 10%;
   }
 }
+
+/* Class for sound wave animation */
+.animate-sound-wave {
+  animation: sound-wave 1.2s ease-in-out infinite;
+}
+
