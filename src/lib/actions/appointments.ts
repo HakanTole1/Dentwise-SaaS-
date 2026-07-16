@@ -1,6 +1,19 @@
 "use server";
 
+import { auth } from "@clerk/nextjs/server";
 import { prisma } from "../prisma";
+
+//gets every single appointments and return appointment as it is, but adds other fields(patientName, patientEmail, etc.)
+function transformAppointment(appointment: any) {
+  return {
+    ...appointment,
+    patientName: `${appointment.user.firstName || ""} ${appointment.user.lastName || ""}`.trim(),
+    patientEmail: appointment.user.email,
+    doctorName: appointment.doctor.name,
+    doctorImageUrl: appointment.doctor.imageUrl || "",
+    date: appointment.date.toISOString().split("T")[0],
+  };
+}
 
 //In appointments table we will display: Patient(Full Name), Doctor(Full Name), Date&Time, Reason, Status 
 
@@ -33,3 +46,72 @@ export async function getAppointments() {//serveraction to fecth appointments
     
   }
 }
+
+export async function getUserAppointments() {
+  try {
+    // get authenticated user from Clerk
+    const { userId } = await auth();
+    if (!userId) throw new Error("You must be logged in to view appointments");
+
+    // find user by clerkId from authenticated session
+    const user = await prisma.user.findUnique({ where: { clerkId: userId } });
+    if (!user) throw new Error("User not found. Please ensure your account is properly set up.");
+
+    //Get appointments of the user 
+    const appointments = await prisma.appointment.findMany({
+      where: { userId: user.id },
+      include: {
+        user: { select: { firstName: true, lastName: true, email: true } },
+        doctor: { select: { name: true, imageUrl: true } },
+      },
+      orderBy: [{ date: "asc" }, { time: "asc" }],
+    });
+
+    return appointments.map(transformAppointment);
+    
+  } catch (error) {
+    console.error("Error fetching user appointments:", error);
+    throw new Error("Failed to fetch user appointments");
+    
+  }
+}
+
+export async function getUserAppointmentStats() {
+  try {
+    const {userId } = await auth();
+    if(!userId) {
+      throw new Error("You must be authenticated")
+    }
+
+    const user = await prisma.user.findUnique({where:{clerkId: userId}})
+
+    if(!user) {
+      throw new Error("User not found")
+    }
+
+    // these calls will run in parallel, instead of waiting each other
+    const [totalCount, completedCount] = await Promise.all([
+      prisma.appointment.count({
+        where: { userId: user.id },
+      }),
+      prisma.appointment.count({
+        where: {
+          userId: user.id,
+          status: "COMPLETED",
+        },
+      }),
+    ]);
+
+    return {
+      totalAppointments: totalCount,
+      completedAppointments: completedCount
+    }
+
+     
+  } catch (error) {
+    console.error("Error fetching user appointment stats:", error);
+    return { totalCount: 0, completedCount: 0 }
+    
+  }
+}
+
