@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs'
 import UserSync from "@/components/userSync";
 import TanStackProvider from "@/components/providers/TanStackProvider";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({ //Getting some fonts 
   variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
           >
           <UserSync /> {/* Sync user data on app load */}
+          <Toaster /> {/*To use toast error throw */}
           {children}
         </body>
       </html>

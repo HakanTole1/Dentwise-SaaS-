@@ -8,6 +8,10 @@ import AddDoctorDialog from './AddDoctorDialog';
 import { Badge } from '../ui/badge';
 import EditDoctorDialog from './EditDoctorDialog';
 import { Doctor } from '@prisma/client';
+import { generateAvatar } from '@/lib/utils';
+
+// Sabit varyasyonlar dizisi
+const VARIATIONS = ["blonde", "brunette", "black"] as const;
 
 function DoctorsManagement() {
 
@@ -53,68 +57,74 @@ function DoctorsManagement() {
 
         <CardContent>
           <div className="space-y-4">
-            {doctors.map(doctor => (
-              <div key={doctor.id} className="flex items-center justify-between p-4 bg-muted/30 rounded-xl border border-border/50"> 
+            {doctors.map(doctor => {
+              // ID'nin son 3 karakterini kullanarak benzersiz ve sabit bir varyasyon belirle
+              const charCodeSum = doctor.id.slice(-3).split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              const variation = VARIATIONS[charCodeSum % VARIATIONS.length];
 
-                <div className="flex items-center gap-4"> {/*LEFT SIDE */}
-                  <Image 
-                    src={doctor.imageUrl}
-                    alt={doctor.name}
-                    width={48}
-                    height={48}
-                    className="size-12 rounded-full object-cover ring-2 ring-background"
-                  />
+              return (
+                <div key={doctor.id} className="flex items-center justify-between p-4 bg-muted/30 rounded-xl border border-border/50"> 
 
-                  <div>
-                    <div className="font-semibold">{doctor.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {doctor.speciality}
+                  <div className="flex items-center gap-4"> {/*LEFT SIDE */}
+                    <Image 
+                      src={generateAvatar(doctor.gender, variation)}
+                      alt={doctor.name}
+                      width={48}
+                      height={48}
+                      className="size-12 rounded-full object-cover ring-2 ring-background"
+                    />
 
-                      <span className="ml-2 px-2 py-0.5 bg-muted rounded text-xs">
-                        {doctor.gender === "MALE" ? "Male" : "Female"}
-                      </span>
-                    </div>
+                    <div>
+                      <div className="font-semibold">{doctor.name}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {doctor.speciality}
 
-                    <div className="flex items-center gap-4 mt-1">
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <MailIcon className="h-3 w-3" />
-                        {doctor.email}
+                        <span className="ml-2 px-2 py-0.5 bg-muted rounded text-xs">
+                          {doctor.gender === "MALE" ? "Male" : "Female"}
+                        </span>
                       </div>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <PhoneIcon className="h-3 w-3" />
-                        {doctor.phone}
+
+                      <div className="flex items-center gap-4 mt-1">
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <MailIcon className="h-3 w-3" />
+                          {doctor.email}
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <PhoneIcon className="h-3 w-3" />
+                          {doctor.phone}
+                        </div>
                       </div>
+
                     </div>
 
                   </div>
 
-                </div>
-
-                <div className="flex items-center gap-3"> {/*RIGHT SIDE */}
-                  <div className="text-center">
-                    <div className="font-semibold text-primary">{doctor.appointmentCount}</div>
-                    <div className="text-xs text-muted-foreground">Appointments</div>
+                  <div className="flex items-center gap-3"> {/*RIGHT SIDE */}
+                    <div className="text-center">
+                      <div className="font-semibold text-primary">{doctor.appointmentCount}</div>
+                      <div className="text-xs text-muted-foreground">Appointments</div>
+                    </div>
+                    
+                    {/*Check account is active or inactive */}
+                    {doctor.isActive ? ( 
+                      <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Active</Badge>
+                    ) : (
+                      <Badge variant="secondary">Inactive</Badge>
+                    )}
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-8 px-3"
+                      onClick={() => handleEditDoctor(doctor)}
+                    >
+                      <EditIcon className="size-4 mr-1" />
+                      Edit
+                    </Button>
                   </div>
-                  
-                  {/*Check account is active or inactive */}
-                  {doctor.isActive ? ( 
-                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Active</Badge>
-                  ) : (
-                    <Badge variant="secondary">Inactive</Badge>
-                  )}
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="h-8 px-3"
-                    onClick={() => handleEditDoctor(doctor)}
-                  >
-                    <EditIcon className="size-4 mr-1" />
-                    Edit
-                  </Button>
-                </div>
 
-              </div>
-            ))}
+                </div>
+              );
+            })}
 
           </div>
         </CardContent>
@@ -137,4 +147,4 @@ function DoctorsManagement() {
   )
 }
 
-export default DoctorsManagement
+export default DoctorsManagement;
