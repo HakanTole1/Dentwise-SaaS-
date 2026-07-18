@@ -42,11 +42,24 @@ interface CreateDoctorInput {
 export async function createDoctor(input: CreateDoctorInput) {
   try {
     if (!input.name || !input.email) throw new Error("Name and email are required");
+      
+      const getHairColor = (gender: string): "blonde" | "brunette" | "black" => {
+       const mapping: Record<string, "blonde" | "brunette" | "black"> = {
+        'FEMALE': 'blonde',
+        'MALE': 'brunette',
+        'OTHER': 'black', // Veya istediğin bir mantık
+       };
+
+       return mapping[gender] || 'brunette'; // Eşleşme yoksa varsayılan
+      };
+
+    const hairColor = getHairColor(input.gender);
 
     const doctor = await prisma.doctor.create({
+      
       data: {
         ...input,
-        imageUrl: generateAvatar(input.name, input.gender), //Depending on gender our generateAvatar func. creates image
+        imageUrl: generateAvatar(input.name, hairColor), //Depending on gender our generateAvatar func. creates image
       },
     });
 
