@@ -24,11 +24,11 @@
 
 | Hero | How It Works |
 | --- | --- |
-| <img src="public/screenshots/landing.png" alt="Landing page hero" width="400" /> | <img src="public/screenshots/image2.png" alt="How it works" width="400" /> |
+| <img src="public/screenshots/landing.png" alt="Landing page hero" width="400" /> | <img src="public/screenshots/landing_how_it_works.png" alt="How it works" width="400" /> |
 
 | Ask About Anything Dental | Call to Action & Footer |
 | --- | --- |
-| <img src="public/screenshots/image3.png" alt="Common questions" width="400" /> | <img src="public/screenshots/image.png" alt="Call to action and footer" width="400" /> |
+| <img src="public/screenshots/landing_questions.png" alt="Common questions" width="400" /> | <img src="public/screenshots/landing_cta.png" alt="Call to action and footer" width="400" /> |
 
 ### Voice AI Assistant
 
