@@ -18,6 +18,40 @@
   <img src="public/hero.png" alt="DentWise preview" width="350" />
 </p>
 
+## Screenshots
+
+### Landing Page
+
+| Hero | How It Works |
+| --- | --- |
+| <img src="public/screenshots/landing.png" alt="Landing page hero" width="400" /> | <img src="public/screenshots/image2.png" alt="How it works" width="400" /> |
+
+| Ask About Anything Dental | Call to Action & Footer |
+| --- | --- |
+| <img src="public/screenshots/image3.png" alt="Common questions" width="400" /> | <img src="public/screenshots/image.png" alt="Call to action and footer" width="400" /> |
+
+### Voice AI Assistant
+
+Talk to the AI dental assistant in real time with your voice (Pro plan).
+
+<p align="center">
+  <img src="public/screenshots/voice.png" alt="Voice AI assistant" width="600" />
+</p>
+
+### App
+
+| Dashboard | Pricing |
+| --- | --- |
+| <img src="public/screenshots/user_dashboard.png" alt="User dashboard" width="400" /> | <img src="public/screenshots/pricing.png" alt="Pricing" width="400" /> |
+
+| Appointments — Choose a Dentist | Appointments — Pick Date & Time |
+| --- | --- |
+| <img src="public/screenshots/book_appointment.png" alt="Choose a dentist" width="400" /> | <img src="public/screenshots/book_appointment_date.png" alt="Pick date and time" width="400" /> |
+
+| Appointments — Confirm | Appointment Confirmation Email |
+| --- | --- |
+| <img src="public/screenshots/book_appointment_confirm.png" alt="Confirm appointment" width="400" /> | <img src="public/screenshots/appointment_confirmation_mail.png" alt="Appointment confirmation email" width="400" /> |
+
 ## Features
 
 - **Authentication** — sign up / sign in with Clerk; users are synced to the database on first login.

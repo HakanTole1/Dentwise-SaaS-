@@ -44,7 +44,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
           >
-          {/*<UserSync /> {/* Sync user data on  HomePage */} */}
+          {/* <UserSync /> Sync user data on HomePage */}
           <Toaster /> {/*To use toast error throw */}
           {children}
         </body>
